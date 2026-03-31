@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultimate Interactive Webpage</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Segoe UI, sans-serif;
+  background: #0f2027;
+  color: white;
+}
+
+/* HEADER */
+header {
+  position: sticky;
+  top: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: #00f2fe;
+}
+
+.time {
+  font-weight: bold;
+}
+
+/* HERO */
+.hero {
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 32px;
+  background: linear-gradient(135deg,#1f4037,#99f2c8);
+}
+
+/* CARDS */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.1);
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.05);
+  background: rgba(0,242,254,0.3);
+}
+
+/* FORM */
+.form-section {
+  padding: 20px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: none;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.btn {
+  padding: 10px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  background: #00f2fe;
+  cursor: pointer;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 10px;
+  background: black;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>My Cool Website</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Gallery</a>
+    <a href="#">Form</a>
+  </nav>
+  <div class="time" id="time"></div>
+</header>
+
+<div class="hero" id="heroText">
+  Welcome Shree 😊
+</div>
+
+<div class="container" id="cardContainer">
+
+  <div class="card" onclick="changeText()">
+    <img src="f1.jpg">
+    <p>Click to Change Text</p>
+  </div>
+
+  <div class="card" onclick="addCard()">
+    <img src="https://picsum.photos/300/200?1">
+    <p>Add New Card</p>
+  </div>
+
+  <div class="card" onclick="removeCard()">
+    <img src="https://picsum.photos/300/200?2">
+    <p>Remove Last Card</p>
+  </div>
+
+  <div class="card" onclick="randomColor()">
+    <img src="https://picsum.photos/300/200?3">
+    <p>Random Background</p>
+  </div>
+
+</div>
+
+<div class="form-section">
+  <h2>Register</h2>
+
+  <input type="text" id="name" placeholder="Enter Name">
+  <div class="error" id="nameError"></div>
+
+  <input type="email" id="email" placeholder="Enter Email">
+  <div class="error" id="emailError"></div>
+
+  <input type="tel" id="phone" placeholder="Enter Phone Number">
+  <div class="error" id="phoneError"></div>
+
+  <input type="password" id="password" placeholder="Enter Password">
+  <div class="error" id="passError"></div>
+
+  <input type="password" id="confirm" placeholder="Confirm Password">
+  <div class="error" id="confirmError"></div>
+
+  <select id="gender">
+    <option value="">Select Gender</option>
+    <option>Male</option>
+    <option>Female</option>
+  </select>
+
+  <label>
+    <input type="checkbox" id="terms"> Accept Terms & Conditions
+  </label>
+  <div class="error" id="termsError"></div>
+
+  <button class="btn" onclick="validateForm()">Submit</button>
+</div>
+
+<footer>
+  © 2026 Advanced Interactive Page
+</footer>
+
+<script>
+
+/* TIME */
+setInterval(() => {
+  document.getElementById("time").innerText =
+    new Date().toLocaleTimeString();
+}, 1000);
+
+/* CHANGE TEXT */
+function changeText() {
+  document.getElementById("heroText").innerText = "🔥 Text Changed!";
+}
+
+/* ADD CARD */
+function addCard() {
+  let div = document.createElement("div");
+  div.className = "card";
+  div.innerHTML =
+    `<img src="https://picsum.photos/300/200?random">
+     <p>New Card</p>`;
+  document.getElementById("cardContainer").appendChild(div);
+}
+
+/* REMOVE CARD */
+function removeCard() {
+  let container = document.getElementById("cardContainer");
+  if (container.children.length > 0) {
+    container.removeChild(container.lastElementChild);
+  }
+}
+
+/* RANDOM COLOR */
+function randomColor() {
+  let r = Math.floor(Math.random()*256);
+  let g = Math.floor(Math.random()*256);
+  let b = Math.floor(Math.random()*256);
+  document.body.style.background = `rgb(${r},${g},${b})`;
+}
+
+/* FORM VALIDATION */
+function validateForm() {
+
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let phone = document.getElementById("phone").value;
+  let password = document.getElementById("password").value;
+  let confirm = document.getElementById("confirm").value;
+  let terms = document.getElementById("terms").checked;
+
+  let valid = true;
+
+  if (name.length < 3) {
+    document.getElementById("nameError").innerText =
+      "Minimum 3 characters";
+    valid = false;
+  } else document.getElementById("nameError").innerText = "";
+
+  if (!email.includes("@")) {
+    document.getElementById("emailError").innerText =
+      "Invalid email";
+    valid = false;
+  } else document.getElementById("emailError").innerText = "";
+
+  if (phone.length != 10) {
+    document.getElementById("phoneError").innerText =
+      "Enter 10 digit number";
+    valid = false;
+  } else document.getElementById("phoneError").innerText = "";
+
+  if (password !== confirm) {
+    document.getElementById("confirmError").innerText =
+      "Passwords do not match";
+    valid = false;
+  } else document.getElementById("confirmError").innerText = "";
+
+  if (!terms) {
+    document.getElementById("termsError").innerText =
+      "Accept terms";
+    valid = false;
+  } else document.getElementById("termsError").innerText = "";
+
+  if (valid) {
+    alert("Form Submitted Successfully ✅");
+  }
+}
+
+</script>
+
+</body>
+</html>
